@@ -1,0 +1,5 @@
+﻿{
+  "folders":[{"path":"."}],
+  "settings":{"files.exclude":{"**/target":true,"**/.classpath":true},"editor.formatOnSave":true,"plantuml.server":"https://www.plantuml.com/plantuml"},
+  "extensions":{"recommendations":["vscjava.vscode-java-pack","jebbs.plantuml","redhat.vscode-yaml","ms-azuretools.vscode-docker","eamodio.gitlens"]}
+}
