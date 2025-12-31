@@ -25,19 +25,29 @@ public class SequencerStateMachine {
         return state;
     }
 
-    public synchronized State onToggle() {
+    public synchronized State onToggle(long sequenceNumber) {
         State previous = state;
         state = (state == State.OPEN) ? State.CLOSED : State.OPEN;
-        System.out.println("[replica-" + replicaId + "] State changed: " + previous + " -> " + state);
+        System.out.println(
+                "[replica-" + replicaId + "] [seq=" + sequenceNumber + "] State changed: " + previous + " -> " + state);
         return state;
     }
 
-    public synchronized State processEvent(String event) {
-        System.out.println("[replica-" + replicaId + "] Event received: " + event);
+    public synchronized State processEvent(String event, long sequenceNumber) {
+        System.out.println("[replica-" + replicaId + "] [seq=" + sequenceNumber + "] Event received: " + event);
         if ("toggle".equalsIgnoreCase(event)) {
-            return onToggle();
+            return onToggle(sequenceNumber);
         }
         throw new IllegalArgumentException("Unknown event: " + event);
+    }
+
+    // Backward compatibility methods for tests without sequence numbers
+    public synchronized State onToggle() {
+        return onToggle(-1);
+    }
+
+    public synchronized State processEvent(String event) {
+        return processEvent(event, -1);
     }
 
     /**
